@@ -1,0 +1,6 @@
+# base image
+FROM sad123/dashboard:v1
+
+EXPOSE 9181
+
+CMD ["rq-dashboard", "-H", "redis"]

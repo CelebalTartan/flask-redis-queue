@@ -3,12 +3,13 @@ version: '3.8'
 services:
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.web
     image: web
     container_name: web
     ports:
       - 5004:5000
-    command: python manage.py run -h 0.0.0.0
     volumes:
       - .:/usr/src/app
     environment:
@@ -18,8 +19,10 @@ services:
       - redis
 
   worker:
-    image: web
-    command: python manage.py run_worker
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    image: worker
     volumes:
       - .:/usr/src/app
     environment:
@@ -29,10 +32,14 @@ services:
       - web
 
   redis:
-    image: redis:6-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.redis
 
   dashboard:
-    image: sad123/dashboard:v1
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
     container_name: dashboard
     ports:
       - 9181:9181
