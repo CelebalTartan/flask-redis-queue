@@ -148,13 +148,13 @@ First prefix the image with your registry login URI so that it can be pushed to 
 The first command tags the image for uploading to your registry and the second pushes the image.
 
 ```sh
-docker tag web:latest workshopforredisflaskappln.azurecr.io/web:latest
-docker tag redis:6-alpine workshopforredisflaskappln.azurecr.io/redis:6-alpine
-docker tag sad123/dashboard:v1 workshopforredisflaskappln.azurecr.io/sad123/dashboard:v1
+docker tag web:latest <azure_container_registry_name>.azurecr.io/web:latest
+docker tag redis:6-alpine <azure_container_registry_name>.azurecr.io/redis:6-alpine
+docker tag sad123/dashboard:v1 <azure_container_registry_name>.azurecr.io/sad123/dashboard:v1
 ```
 
 ```sh
-docker push workshopforredisflaskappln.azurecr.io/web:latest
-docker push workshopforredisflaskappln.azurecr.io/redis:6-alpine
-docker push workshopforredisflaskappln.azurecr.io/sad123/dashboard:v1
+docker push <azure_container_registry_name>.azurecr.io/web:latest
+docker push <azure_container_registry_name>.azurecr.io/redis:6-alpine
+docker push <azure_container_registry_name>.azurecr.io/sad123/dashboard:v1
 ```

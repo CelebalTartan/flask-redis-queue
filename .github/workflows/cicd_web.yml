@@ -35,22 +35,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: workshopforredisflaskappln.azurecr.io/web:${{ github.sha }}
-          file: ./Dockerfile.web
-          context: ./
-
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: workshopforredisflaskappln.azurecr.io/worker:${{ github.sha }}
-          file: ./Dockerfile.worker
-          context: ./
-
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
-        with:
-          push: true
           tags: workshopforredisflaskappln.azurecr.io/redis:${{ github.sha }}
           file: ./Dockerfile.redis
           context: ./
@@ -63,6 +47,21 @@ jobs:
           file: ./Dockerfile.dashboard
           context: ./
 
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: workshopforredisflaskappln.azurecr.io/web:${{ github.sha }}
+          file: ./Dockerfile.web
+          context: ./
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: workshopforredisflaskappln.azurecr.io/worker:${{ github.sha }}
+          file: ./Dockerfile.worker
+          context: ./
 
   deploy:
     runs-on: ubuntu-latest
@@ -80,6 +79,22 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n workshopcontainerapp -g Workshop --server workshopforredisflaskappln.azurecr.io --username  ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_USERNAME }} --password ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_PASSWORD }}
+            az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/redis:${{ github.sha }} --container-name redis --cpu 0.25 --memory 0.5Gi
+      
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n workshopcontainerapp -g Workshop --server workshopforredisflaskappln.azurecr.io --username  ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_USERNAME }} --password ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_PASSWORD }}
+            az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/dashboard:${{ github.sha }} --container-name dashboard --cpu 0.25 --memory 0.5Gi
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n workshopcontainerapp -g Workshop --server workshopforredisflaskappln.azurecr.io --username  ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_USERNAME }} --password ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_PASSWORD }}
             az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/web:${{ github.sha }} --container-name master --cpu 0.25 --memory 0.5Gi
 
       - name: Deploy to containerapp
@@ -89,19 +104,3 @@ jobs:
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n workshopcontainerapp -g Workshop --server workshopforredisflaskappln.azurecr.io --username  ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_USERNAME }} --password ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_PASSWORD }}
             az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/worker:${{ github.sha }} --container-name worker --cpu 0.25 --memory 0.5Gi
-
-      - name: Deploy to containerapp
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n workshopcontainerapp -g Workshop --server workshopforredisflaskappln.azurecr.io --username  ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_USERNAME }} --password ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_PASSWORD }}
-            az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/redis:${{ github.sha }} --container-name redis --cpu 0.25 --memory 0.5Gi
-
-      - name: Deploy to containerapp
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n workshopcontainerapp -g Workshop --server workshopforredisflaskappln.azurecr.io --username  ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_USERNAME }} --password ${{ secrets.WORKSHOPCONTAINERAPP_REGISTRY_PASSWORD }}
-            az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/dashboard:${{ github.sha }} --container-name dashboard --cpu 0.25 --memory 0.5Gi
