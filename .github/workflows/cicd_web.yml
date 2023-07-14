@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: workshopforredisflaskappln.azurecr.io/worker:${{ github.sha }}
+          tags: workshopforredisflaskappln.azurecr.io/dashboard:${{ github.sha }}
           file: ./Dockerfile.dashboard
           context: ./
 
