@@ -116,6 +116,8 @@ And voila! You have now successfully created a CI/CD pipeline
 
 7. When logging in to DockerHub instead of Azure Container Registry, replace the registry URL `acr-name.azurecr.io` with `docker.io`. Specifically, replace `workshopforredisflaskappln.azurecr.io` with `docker.io`.
 
+8. For any other updates, Please refer [azure-cli commands](https://learn.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest).
+
 By following these steps, you will have deleted the existing .yml file and replaced it with the cicd.yml file from the repository. Additionally, you will have taken note of the required secrets for further configuration or reference.
 
 Now, whenever you push changes to the main branch, the cicd.yml file will trigger the continuous integration and continuous deployment (CI/CD) flow.
