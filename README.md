@@ -48,7 +48,7 @@ To create a service principal, follow these steps:
 
 12. Once you click on "Add", the client secret will be generated, and the value will be displayed. Make sure to copy the secret value as it will not be visible later.
 
-13. Now, you need to assign the necessary permissions to your service principal. To give contributor access to a service principal using Azure Container App role access, follow these steps:
+13. Now, you need to assign the necessary permissions to your service principal. __You need to give this permission to both Container Apps and Container Apps Environment.__ To give contributor access to a service principal using Azure Container App role access, follow these steps:
 
     1. Go to the Azure portal (portal.azure.com) and sign in with your Azure account credentials.
 
@@ -58,7 +58,7 @@ To create a service principal, follow these steps:
 
     4. Click on the "+ Add" button to add a new role assignment.
 
-    5. In the "Add role assignment" blade, select the role you want to assign. In this case, choose "Managed Application Contributor Role" from the list of available roles.
+    5. In the "Add role assignment" blade, select the role you want to assign. In this case, choose "Contributor" from role definition in Previleged administrator roles.
 
     6. In the "Add members" section, click on "Select members" to specify the members (users, groups, or service principals) to whom you want to grant the contributor access.
 
