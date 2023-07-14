@@ -48,13 +48,31 @@ To create a service principal, follow these steps:
 
 12. Once you click on "Add", the client secret will be generated, and the value will be displayed. Make sure to copy the secret value as it will not be visible later.
 
-13. Now, you need to assign the necessary permissions to your service principal. In the left-hand menu, select "API permissions" under the "Manage" section.
+13. Now, you need to assign the necessary permissions to your service principal. To give contributor access to a service principal using Azure Container App role access, follow these steps:
 
-14. Click on the "Add a permission" button to select the APIs or resources your service principal should have access to. Choose the appropriate permissions based on your application's requirements.
+    1. Go to the Azure portal (portal.azure.com) and sign in with your Azure account credentials.
 
-15. After selecting the desired permissions, click on the "Grant admin consent for <your-tenant-name>" button to grant the permissions to your service principal. Admin consent may be required depending on the permissions requested.
+    2. Navigate to the resource group or resource where you want to grant contributor access to the service principal.
 
-16. Your service principal is now created and ready to be used. You can find additional configuration options and settings in the Azure portal, such as authentication settings, role assignments, and more, depending on your requirements.
+    3. In the left-hand menu, click on "Access control (IAM)" to manage role assignments for the selected resource.
+
+    4. Click on the "+ Add" button to add a new role assignment.
+
+    5. In the "Add role assignment" blade, select the role you want to assign. In this case, choose "Managed Application Contributor Role" from the list of available roles.
+
+    6. In the "Add members" section, click on "Select members" to specify the members (users, groups, or service principals) to whom you want to grant the contributor access.
+
+    7. In the "Select members" blade, search for and select the appropriate service principal by selecting "Service principal name" from the drop-down menu and entering the name or part of the name in the search box. Choose the desired service principal from the search results.
+
+    8. Click on the "Select" button to add the selected service principal as a member.
+
+    9. Once you have added the member (service principal), click on the "Review + assign" button to proceed.
+
+    10. Review the details of the role assignment in the "Review + assign" blade to ensure everything is correct.
+
+    11. Finally, click on the "Review + assign" button to complete the role assignment and grant contributor access to the service principal.
+
+    After following these steps, the selected service principal will have been assigned the "Managed Application Contributor Role" with contributor access to the specified resource or resource group.
 
 Remember to securely store the client secret as it acts as the authentication credential for your service principal. Treat it with the same level of security as you would for any other sensitive information.
 
@@ -66,6 +84,8 @@ Application ID : <service-principal-client-id>
 Value : <service-principal-client-secret>
 
 Tenant ID : <servic-principal-tenant-id>
+
+Description: <service-principal-name>
 ```
 
 After reteriving service principal you need to fill the following information in Service principal settings of Continuous development  
@@ -95,24 +115,6 @@ And voila! You have now successfully created a CI/CD pipeline
 6. Replace the deleted .yml file with the cicd.yml file in the .github\workspaces directory by making necessary changes in the secrets, Dockerfile name, Azure container app/ DockerHub Login server name and branch name.
 
 By following these steps, you will have deleted the existing .yml file and replaced it with the cicd.yml file from the repository. Additionally, you will have taken note of the required secrets for further configuration or reference.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ### How to push docker image to Azure container registry or docker [Optional]
 
