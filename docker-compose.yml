@@ -35,6 +35,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.redis
+    ports:
+      - '6379:6379'
 
   dashboard:
     build:
@@ -43,6 +45,5 @@ services:
     container_name: dashboard
     ports:
       - 9181:9181
-    command: rq-dashboard -H redis
     depends_on:
       - redis

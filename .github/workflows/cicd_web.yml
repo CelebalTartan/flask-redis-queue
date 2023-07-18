@@ -55,14 +55,6 @@ jobs:
           file: ./Dockerfile.web
           context: ./
 
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: workshopforredisflaskappln.azurecr.io/worker:${{ github.sha }}
-          file: ./Dockerfile.worker
-          context: ./
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -82,4 +74,3 @@ jobs:
             az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/redis:${{ github.sha }} --container-name redis --cpu 0.25 --memory 0.5Gi
             az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/dashboard:${{ github.sha }} --container-name dashboard --cpu 0.25 --memory 0.5Gi
             az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/web:${{ github.sha }} --container-name master --cpu 0.25 --memory 0.5Gi --set-env-vars FLASK_DEBUG=1 APP_SETTINGS=project.server.config.DevelopmentConfig
-            az containerapp update -n workshopcontainerapp -g Workshop --image workshopforredisflaskappln.azurecr.io/worker:${{ github.sha }} --container-name worker --cpu 0.25 --memory 0.5Gi --set-env-vars APP_SETTINGS=project.server.config.DevelopmentConfig
